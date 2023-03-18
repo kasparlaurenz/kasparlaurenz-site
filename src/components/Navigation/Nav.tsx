@@ -1,14 +1,12 @@
 import Link from "next/link";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 const Nav = () => {
   const [showMenu, setShowMenu] = useState(false);
+  const [menuText, setMenuText] = useState("menu");
   return (
-    <nav className="flex items-center justify-between">
-      <div>
-        <h1 className="text-6xl">kasparlaurenz</h1>
-      </div>
-
+    <nav className="flex h-screen w-full items-center justify-center">
       {showMenu ? (
         <div className="absolute inset-0 z-20 flex h-full w-full items-center justify-center bg-amber-400">
           <ul className="flex flex-col items-center gap-3">
@@ -30,9 +28,12 @@ const Nav = () => {
             </li>
             <li>
               <button
-                className="h-11
-                 w-11 border-2 text-center text-3xl hover:border-neutral-900 hover:text-neutral-900"
-                onClick={() => setShowMenu(false)}
+                className="
+                  text-center text-3xl text-slate-100"
+                onClick={() => {
+                  setMenuText("menu");
+                  setShowMenu(false);
+                }}
               >
                 c
               </button>
@@ -40,12 +41,35 @@ const Nav = () => {
           </ul>
         </div>
       ) : (
-        <button
-          className="h-12 w-12 rounded-full  border-2 text-3xl hover:border-amber-500 hover:text-amber-500"
-          onClick={() => setShowMenu(true)}
+        <motion.div
+          onDrag={(e, info) => {
+            if (
+              info.offset.x > 50 ||
+              info.offset.x < -50 ||
+              info.offset.y > 50 ||
+              info.offset.y < -50
+            ) {
+              setMenuText("open");
+            }
+            if (
+              info.offset.x > 120 ||
+              info.offset.x < -120 ||
+              info.offset.y > 120 ||
+              info.offset.y < -120
+            ) {
+              setShowMenu(true);
+            }
+          }}
+          onDragEnd={() => {
+            setMenuText("menu");
+          }}
+          dragSnapToOrigin={true}
+          drag
+          dragConstraints={{ left: -200, right: 200 }}
+          className="absolute cursor-pointer text-3xl text-slate-100 hover:text-amber-500"
         >
-          m
-        </button>
+          {menuText}
+        </motion.div>
       )}
     </nav>
   );
