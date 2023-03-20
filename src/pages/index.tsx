@@ -1,17 +1,36 @@
+import { motion, MotionValue, useMotionValue } from "framer-motion";
 import { type NextPage } from "next";
-import { motion, useMotionValue, useTransform } from "framer-motion";
-import { useEffect, useState } from "react";
+import { createOpacityTransform } from "~/utils/create-opacity.motion";
 
 const Index: NextPage = () => {
   const drag = useMotionValue(0);
-  const opacityLeft = useTransform(drag, [-1000, 0, 200], [0.7, 0, 0]);
-  const opacityRight = useTransform(drag, [-200, 0, 1000], [0, 0, 0.7]);
 
-  console.log(drag.get());
+  const outputRangeLeft = [0.7, 0, 0];
+  const outputRangeRight = [0, 0, 0.7];
+
+  const GuestOpacities: { [key: string]: MotionValue<number> } = {
+    G: createOpacityTransform(drag, -500, 200, outputRangeLeft),
+    u: createOpacityTransform(drag, -400, 200, outputRangeLeft),
+    e: createOpacityTransform(drag, -300, 200, outputRangeLeft),
+    s: createOpacityTransform(drag, -200, 200, outputRangeLeft),
+    t: createOpacityTransform(drag, -100, 200, outputRangeLeft),
+  };
+
+  const MenuOpacities: { [key: string]: MotionValue<number> } = {
+    M: createOpacityTransform(drag, -200, 100, outputRangeRight),
+    e: createOpacityTransform(drag, -200, 200, outputRangeRight),
+    n: createOpacityTransform(drag, -200, 350, outputRangeRight),
+    u: createOpacityTransform(drag, -200, 500, outputRangeRight),
+  };
+
   return (
     <div className="flex h-screen w-full items-center justify-between">
-      <motion.div className="text-3xl" style={{ opacity: opacityLeft }}>
-        Guest
+      <motion.div className="text-3xl">
+        {Object.keys(GuestOpacities).map((letter) => (
+          <motion.span style={{ opacity: GuestOpacities[letter] }}>
+            {letter}
+          </motion.span>
+        ))}
       </motion.div>
       <div className="flex flex-col items-center justify-center gap-3">
         <div className="text-3xl">Drag</div>
@@ -27,8 +46,12 @@ const Index: NextPage = () => {
           whileDrag={{ scale: 0.8 }}
         ></motion.div>
       </div>
-      <motion.div className="text-3xl" style={{ opacity: opacityRight }}>
-        Menu
+      <motion.div className="text-3xl">
+        {Object.keys(MenuOpacities).map((letter) => (
+          <motion.span style={{ opacity: MenuOpacities[letter] }}>
+            {letter}
+          </motion.span>
+        ))}
       </motion.div>
     </div>
   );
