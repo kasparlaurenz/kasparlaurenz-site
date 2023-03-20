@@ -1,14 +1,25 @@
+import { AnimatePresence } from "framer-motion";
 import type { NextPage } from "next";
-import { useRouter } from "next/router";
-import React from "react";
-import BigNav from "~/components/Navigation/BigNav";
+import { useState } from "react";
+import NavModal from "~/components/Navigation/Nav";
 
 const About: NextPage = () => {
-  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const close = () => setIsOpen(false);
+  const open = () => setIsOpen(true);
+
   return (
-    <div className="mx-auto max-w-5xl">
-      <BigNav isHome={false} currentPage={router.route} />
-    </div>
+    <>
+      <div className="absolute z-10">
+        <button onClick={() => (isOpen ? close() : open())}>
+          {isOpen ? "Close" : "Open"}
+        </button>
+      </div>
+      <AnimatePresence initial={false}>
+        {isOpen && <NavModal handleClose={close} />}
+      </AnimatePresence>
+    </>
   );
 };
 
