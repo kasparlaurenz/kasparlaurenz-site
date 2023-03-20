@@ -27,7 +27,7 @@ const Index: NextPage = () => {
     <div className="flex h-screen w-full items-center justify-between">
       <motion.div className="text-3xl">
         {Object.keys(GuestOpacities).map((letter) => (
-          <motion.span style={{ opacity: GuestOpacities[letter] }}>
+          <motion.span key={letter} style={{ opacity: GuestOpacities[letter] }}>
             {letter}
           </motion.span>
         ))}
@@ -48,7 +48,7 @@ const Index: NextPage = () => {
       </div>
       <motion.div className="text-3xl">
         {Object.keys(MenuOpacities).map((letter) => (
-          <motion.span style={{ opacity: MenuOpacities[letter] }}>
+          <motion.span key={letter} style={{ opacity: MenuOpacities[letter] }}>
             {letter}
           </motion.span>
         ))}
