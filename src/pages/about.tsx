@@ -9,18 +9,7 @@ const About: NextPage = () => {
   const close = () => setIsOpen(false);
   const open = () => setIsOpen(true);
 
-  return (
-    <>
-      <div className="absolute z-10">
-        <button onClick={() => (isOpen ? close() : open())}>
-          {isOpen ? "Close" : "Open"}
-        </button>
-      </div>
-      <AnimatePresence initial={false}>
-        {isOpen && <NavModal handleClose={close} />}
-      </AnimatePresence>
-    </>
-  );
+  return <h1>About</h1>;
 };
 
 export default About;
