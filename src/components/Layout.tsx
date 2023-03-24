@@ -26,10 +26,15 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             isHome ? "pt-0" : "pt-32"
           }`}
         >
-          {!isHome && <MenuButton isOpen={isOpen} open={open} close={close} />}
-          <AnimatePresence initial={false}>
-            {isOpen && <NavModal handleClose={close} />}
-          </AnimatePresence>
+          {!isHome && (
+            <>
+              <MenuButton isOpen={isOpen} open={open} close={close} />
+              <AnimatePresence initial={false}>
+                {isOpen && <NavModal handleClose={close} />}
+              </AnimatePresence>
+            </>
+          )}
+
           {children}
         </div>
       </div>

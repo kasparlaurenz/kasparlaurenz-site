@@ -1,7 +1,7 @@
-import { useTransform } from "framer-motion";
+import { MotionValue, useTransform } from "framer-motion";
 
 export const createOpacityTransform = (
-  motionVal: any,
+  motionVal: MotionValue<number>,
   start: number,
   end: number,
   outputRange: number[]

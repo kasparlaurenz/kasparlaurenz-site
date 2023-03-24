@@ -1,30 +1,40 @@
-import { motion, MotionValue, useMotionValue } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  MotionValue,
+  useMotionValue,
+} from "framer-motion";
 import { type NextPage } from "next";
 import { createOpacityTransform } from "~/utils/create-opacity.motion";
 
 import { Caveat } from "next/font/google";
+import NavModal from "~/components/Navigation/Nav";
+import { useState } from "react";
 const font = Caveat({ weight: "400", subsets: ["latin"] });
 
 const Index: NextPage = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const drag = useMotionValue(0);
 
   const outputRangeLeft = [0.7, 0, 0];
   const outputRangeRight = [0, 0, 0.7];
 
   const GuestOpacities: { [key: string]: MotionValue<number> } = {
-    G: createOpacityTransform(drag, -500, 200, outputRangeLeft),
-    u: createOpacityTransform(drag, -400, 200, outputRangeLeft),
-    e: createOpacityTransform(drag, -300, 200, outputRangeLeft),
-    s: createOpacityTransform(drag, -200, 200, outputRangeLeft),
-    t: createOpacityTransform(drag, -100, 200, outputRangeLeft),
+    G: createOpacityTransform(drag, -500, 0, outputRangeLeft),
+    u: createOpacityTransform(drag, -400, 0, outputRangeLeft),
+    e: createOpacityTransform(drag, -300, 0, outputRangeLeft),
+    s: createOpacityTransform(drag, -200, 0, outputRangeLeft),
+    t: createOpacityTransform(drag, -100, 0, outputRangeLeft),
   };
 
   const MenuOpacities: { [key: string]: MotionValue<number> } = {
-    M: createOpacityTransform(drag, -200, 100, outputRangeRight),
-    e: createOpacityTransform(drag, -200, 200, outputRangeRight),
-    n: createOpacityTransform(drag, -200, 350, outputRangeRight),
-    u: createOpacityTransform(drag, -200, 500, outputRangeRight),
+    M: createOpacityTransform(drag, 0, 100, outputRangeRight),
+    e: createOpacityTransform(drag, 0, 250, outputRangeRight),
+    n: createOpacityTransform(drag, 0, 400, outputRangeRight),
+    u: createOpacityTransform(drag, 0, 500, outputRangeRight),
   };
+
+  const close = () => setIsOpen(false);
 
   return (
     <div
@@ -40,7 +50,7 @@ const Index: NextPage = () => {
       <div className="flex flex-col items-center justify-center gap-3">
         <div className="text-3xl">Drag</div>
         <motion.div
-          className="z-20 h-6 w-6 cursor-pointer rounded-full bg-yellow-500"
+          className="h-6 w-6 cursor-pointer rounded-full bg-yellow-500"
           whileHover={{ scale: 1.3 }}
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
           drag
@@ -49,6 +59,9 @@ const Index: NextPage = () => {
           dragElastic={0.2}
           dragConstraints={{ right: 500, left: -500, top: -50, bottom: 50 }}
           whileDrag={{ scale: 0.8 }}
+          onDrag={(_, info) => {
+            info.offset.x >= 450 && !isOpen && setIsOpen(true);
+          }}
         ></motion.div>
       </div>
       <motion.div className="text-3xl">
@@ -58,6 +71,9 @@ const Index: NextPage = () => {
           </motion.span>
         ))}
       </motion.div>
+      <AnimatePresence initial={false}>
+        {isOpen && <NavModal handleClose={close} />}
+      </AnimatePresence>
     </div>
   );
 };
