@@ -2,6 +2,7 @@ import { AnimatePresence } from "framer-motion";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import MenuButton from "./Buttons/Menu";
 import NavModal from "./Navigation/Nav";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -25,14 +26,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             isHome ? "pt-0" : "pt-32"
           }`}
         >
-          {!isHome && (
-            <button
-              className="fixed top-0 right-0 z-10 p-4 text-2xl"
-              onClick={isOpen ? close : open}
-            >
-              {isOpen ? "Close" : "Open"}
-            </button>
-          )}
+          {!isHome && <MenuButton isOpen={isOpen} open={open} close={close} />}
           <AnimatePresence initial={false}>
             {isOpen && <NavModal handleClose={close} />}
           </AnimatePresence>

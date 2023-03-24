@@ -2,6 +2,9 @@ import { motion, MotionValue, useMotionValue } from "framer-motion";
 import { type NextPage } from "next";
 import { createOpacityTransform } from "~/utils/create-opacity.motion";
 
+import { Caveat } from "next/font/google";
+const font = Caveat({ weight: "400", subsets: ["latin"] });
+
 const Index: NextPage = () => {
   const drag = useMotionValue(0);
 
@@ -24,7 +27,9 @@ const Index: NextPage = () => {
   };
 
   return (
-    <div className="flex h-screen w-full items-center justify-between">
+    <div
+      className={`${font.className} flex h-screen w-full items-center justify-between`}
+    >
       <motion.div className="text-3xl">
         {Object.keys(GuestOpacities).map((letter) => (
           <motion.span key={letter} style={{ opacity: GuestOpacities[letter] }}>
