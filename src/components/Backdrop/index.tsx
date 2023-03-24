@@ -1,12 +1,12 @@
-import React, { ReactNode } from "react";
 import { motion } from "framer-motion";
+import { ReactNode } from "react";
 
 const Backdrop = ({
   children,
   onClick,
 }: {
   children: ReactNode;
-  onClick: any;
+  onClick: () => void;
 }) => {
   return (
     <motion.div

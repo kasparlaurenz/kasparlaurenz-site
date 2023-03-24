@@ -29,17 +29,17 @@ const NavModal = ({ handleClose }: { handleClose: () => void }) => {
       >
         <ul className=" flex flex-col items-center gap-8 text-6xl ">
           <li>
-            <Link className="hover:text-neutral-800" href="/">
+            <Link className="duration-250 hover:text-neutral-800" href="/">
               Home
             </Link>
           </li>
           <li>
-            <Link className="hover:text-neutral-800" href="/about">
+            <Link className="duration-250 hover:text-neutral-800" href="/about">
               About
             </Link>
           </li>
           <li>
-            <Link className="hover:text-neutral-800" href="">
+            <Link className="duration-250 hover:text-neutral-800" href="">
               Contact
             </Link>
           </li>

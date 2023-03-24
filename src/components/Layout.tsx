@@ -7,6 +7,8 @@ import NavModal from "./Navigation/Nav";
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const { pathname } = router;
+
+  const isHome = pathname === "/";
   const [isOpen, setIsOpen] = useState(false);
   const close = () => setIsOpen(false);
   const open = () => setIsOpen(true);
@@ -18,35 +20,23 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="bg h-screen w-full bg-neutral-900 text-slate-100">
-        <div className="mx-auto h-screen w-full max-w-5xl bg-neutral-900">
-          {pathname === "/" ? (
-            <>{children}</>
-          ) : (
-            <>
-              <input
-                type="checkbox"
-                id="menu_checkbox"
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    open();
-                  } else {
-                    close();
-                  }
-                }}
-              />
-              <label
-                htmlFor="menu_checkbox"
-                className="inset-0 top-36 right-60 z-10 text-9xl"
-              >
-                <div className="bg-yellow-400"></div>
-                <div className="bg-yellow-400"></div>
-                <div className="bg-yellow-400"></div>
-              </label>
-              <AnimatePresence initial={false}>
-                {isOpen && <NavModal handleClose={close} />}
-              </AnimatePresence>
-            </>
+        <div
+          className={`mx-auto h-screen w-full max-w-5xl bg-neutral-900 ${
+            isHome ? "pt-0" : "pt-32"
+          }`}
+        >
+          {!isHome && (
+            <button
+              className="fixed top-0 right-0 z-10 p-4 text-2xl"
+              onClick={isOpen ? close : open}
+            >
+              {isOpen ? "Close" : "Open"}
+            </button>
           )}
+          <AnimatePresence initial={false}>
+            {isOpen && <NavModal handleClose={close} />}
+          </AnimatePresence>
+          {children}
         </div>
       </div>
     </>
